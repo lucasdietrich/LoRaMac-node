@@ -42,7 +42,7 @@
  * Must be enabled for LoRaWAN 1.0.4 or later.
  */
 #ifndef CONTEXT_MANAGEMENT_ENABLED
-#define CONTEXT_MANAGEMENT_ENABLED         1
+#define CONTEXT_MANAGEMENT_ENABLED         0
 #endif
 
 
@@ -217,8 +217,8 @@ uint16_t NvmDataMgmtRestore( void )
 
 bool NvmDataMgmtFactoryReset( void )
 {
-    uint16_t offset = 0;
 #if( CONTEXT_MANAGEMENT_ENABLED == 1 )
+    uint16_t offset = 0;
     // Crypto
     if( NvmmReset( sizeof( LoRaMacCryptoNvmData_t ), offset ) == false )
     {

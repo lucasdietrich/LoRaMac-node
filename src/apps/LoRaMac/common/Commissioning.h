@@ -62,6 +62,7 @@ extern "C" {
 
 /*!
  * Current network ID
+ *  https://www.thethingsnetwork.org/docs/lorawan/prefix-assignments/
  */
 #define LORAWAN_NETWORK_ID                                 ( uint32_t )0
 

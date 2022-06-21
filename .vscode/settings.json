@@ -50,7 +50,7 @@
 
         // Target board, the following boards are supported:
         // NAMote72, NucleoL073 (Default), NucleoL152, NucleoL476, SAMR34, SKiM880B, SKiM980A, SKiM881AXL, B-L072Z-LRWAN1.
-        "BOARD":"NucleoL073",
+        "BOARD":"B-L072Z-LRWAN1",
 
         // MBED Radio shield selection. (Applies only to Nucleo platforms)
         // The following shields are supported:
@@ -62,7 +62,7 @@
         "SECURE_ELEMENT":"SOFT_SE",
 
         // Secure element is pre-provisioned
-        "SECURE_ELEMENT_PRE_PROVISIONED":"ON",
+        "SECURE_ELEMENT_PRE_PROVISIONED":"OFF",
 
         // Region support activation, Select the ones you want to support.
         // By default only REGION_EU868 support is enabled.
@@ -84,5 +84,9 @@
         // Default channel plan for region CN470. Possible selections:
         // CHANNEL_PLAN_20MHZ_TYPE_A, CHANNEL_PLAN_20MHZ_TYPE_B, CHANNEL_PLAN_26MHZ_TYPE_A, CHANNEL_PLAN_26MHZ_TYPE_B
         "REGION_CN470_DEFAULT_CHANNEL_PLAN":"CHANNEL_PLAN_20MHZ_TYPE_A"
+    },
+    "files.associations": {
+        "*.asm": "avr",
+        "commissioning.h": "c"
     }
 }
