@@ -3,7 +3,8 @@
         {
             "name": "ARM",
             "compileCommands": "${workspaceRoot}/build/compile_commands.json",
-            "intelliSenseMode": "clang-x64",
+            "intelliSenseMode": "gcc-arm",
+            "compilerPath": "/usr/bin/arm-none-eabi-gdb",
             "browse": {
                 "path": [
                     "${workspaceFolder}"
