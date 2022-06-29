@@ -4,7 +4,7 @@
             "name": "ARM",
             "compileCommands": "${workspaceRoot}/build/compile_commands.json",
             "intelliSenseMode": "gcc-arm",
-            "compilerPath": "/usr/bin/arm-none-eabi-gdb",
+            "compilerPath": "/usr/bin/arm-none-eabi-gcc",
             "browse": {
                 "path": [
                     "${workspaceFolder}"
