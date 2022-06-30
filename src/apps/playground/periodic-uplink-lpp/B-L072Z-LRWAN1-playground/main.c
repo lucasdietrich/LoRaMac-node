@@ -137,6 +137,7 @@ static TimerEvent_t TxTimer;
 
 /*!
  * Timer to handle the state of LED1
+ * Pulse when a frame is sent
  */
 static TimerEvent_t Led1Timer;
 
@@ -256,10 +257,10 @@ static volatile uint32_t TxPeriodicity = 0;
 /*!
  * LED GPIO pins objects
  */
-extern Gpio_t Led1; // Tx
-extern Gpio_t Led2; // Blinks every 5 seconds when beacon is acquired
-extern Gpio_t Led3; // Rx
-extern Gpio_t Led4; // App
+extern Gpio_t Led1; // Green - Tx
+extern Gpio_t Led2; // Red - Blinks every 5 seconds when beacon is acquired
+extern Gpio_t Led3; // Blue - Rx
+extern Gpio_t Led4; // Red - Application
 
 /*!
  * UART object used for command line interface handling
@@ -274,14 +275,16 @@ int main( void )
     BoardInitMcu( );
     BoardInitPeriph( );
 
+    LOG_INF("Application starting !");
+
     TimerInit( &Led1Timer, OnLed1TimerEvent );
-    TimerSetValue( &Led1Timer, 25 );
+    TimerSetValue( &Led1Timer, 250 );
 
     TimerInit( &Led2Timer, OnLed2TimerEvent );
-    TimerSetValue( &Led2Timer, 25 );
+    TimerSetValue( &Led2Timer, 250 );
 
     TimerInit( &Led3Timer, OnLed3TimerEvent );
-    TimerSetValue( &Led3Timer, 25 );
+    TimerSetValue( &Led3Timer, 250 );
 
     TimerInit( &LedBeaconTimer, OnLedBeaconTimerEvent );
     TimerSetValue( &LedBeaconTimer, 5000 );
@@ -309,8 +312,6 @@ int main( void )
 
     StartTxProcess( LORAMAC_HANDLER_TX_ON_TIMER );
 
-    LOG_INF("Application starting !");
-
     while( 1 )
     {
         // Process characters sent over the command line interface
@@ -320,17 +321,18 @@ int main( void )
         LmHandlerProcess( );
 
         // Process application uplinks management
-        UplinkProcess( );
+        // UplinkProcess( );
 
+        /* If there are events to process we don't go to sleep */
         CRITICAL_SECTION_BEGIN( );
         if( IsMacProcessPending == 1 )
         {
-            // Clear flag and prevent MCU to go into low power modes.
+            // Clear flag for current loop pass
             IsMacProcessPending = 0;
         }
         else
         {
-            // The MCU wakes up through events
+            // The MCU will wake up through events
             BoardLowPowerHandler( );
         }
         CRITICAL_SECTION_END( );

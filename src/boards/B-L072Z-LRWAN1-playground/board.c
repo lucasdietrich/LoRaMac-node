@@ -443,3 +443,8 @@ void assert_failed( uint8_t* file, uint32_t line )
     }
 }
 #endif
+
+uint32_t BoardGetTimeMs( void )
+{
+    return HAL_GetTick();
+}

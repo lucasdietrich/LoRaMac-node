@@ -125,6 +125,8 @@ uint8_t GetBoardPowerSource( void );
  */
 Version_t BoardGetVersion( void );
 
+uint32_t BoardGetTimeMs( void );
+
 #ifdef __cplusplus
 }
 #endif

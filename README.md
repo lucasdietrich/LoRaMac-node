@@ -1,3 +1,48 @@
+
+# Lucas Dietrich - Custom Application
+
+Expected result when sending downlink frames from TTN to command application red LED.
+
+```
+[lucas@fedora LoRaMac-node]$ python3 -m serial.tools.miniterm --raw /dev/ttyACM0 921600
+--- Miniterm on /dev/ttyACM0  921600,8,N,1 ---
+--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H ---
+00000001 : Application starting !
+00000059 : DevEui : 70 b3 d5 7e d0 05 25 45
+00000060 : JoinEui : 00 00 00 00 00 00 00 00
+00000062 : Pin : 00 00 00 00
+00000071 : -- [ MCPS-Request - MLME_JOIN]  status=OK Next Tx in= 0 ms
+00008367 : -- [ MLME-Confirm ]  status=OK
+00008369 : -- [ JOINED ]  OTAA DevAddr=260BCE27 DR_0
+00008376 : -- [ Switch to class C done ]
+00008380 : -- [ MCPS-Request - MCPS_UNCONFIRMED]  status=OK Next Tx in= 0 ms
+00015693 : -- [ MCPS-Confirm ]  status=OK
+00015695 : -- [ UPLINK FRAME ]  counter=1 class=C port=0
+00015696 :      DR_0 frequency=867100000 power=0 channel mask=255
+00015698 : -- [ MCPS-Indication ]  status=OK
+00015700 : -- [ DOWNLINK FRAME ]  counter=0 window=1 port=0
+00015701 :      DR_0 rssi=-25 snr=6
+00094647 : -- [ MCPS-Indication ]  status=OK
+00094648 : -- [ DOWNLINK FRAME ]  counter=1 window=C port=2
+00094650 :      RX DATA : 01
+00094651 :      DR_3 rssi=-25 snr=7
+00098843 : -- [ MCPS-Indication ]  status=OK
+00098845 : -- [ DOWNLINK FRAME ]  counter=2 window=C port=2
+00098846 :      RX DATA : 00
+00098847 :      DR_3 rssi=-26 snr=8
+00101334 : -- [ MCPS-Indication ]  status=OK
+00101335 : -- [ DOWNLINK FRAME ]  counter=3 window=C port=2
+00101337 :      RX DATA : 03
+00101338 :      DR_3 rssi=-24 snr=7
+```
+
+---
+
+
+
+
+---
+
 # LoRaWAN end-device stack implementation and example projects
 
       ______                              _

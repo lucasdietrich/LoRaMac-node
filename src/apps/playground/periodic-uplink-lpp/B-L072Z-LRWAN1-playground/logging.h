@@ -21,6 +21,7 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <stdbool.h>
 
 // for colors : https://xdevs.com/guide/color_serial/
 #define CONFIG_LOG_COLOR_ENABLED 1
@@ -75,46 +76,55 @@
 #define LOG_LEVEL_VERBOSE 5
 #define LOG_LEVEL_ALL LOG_LEVEL_VERBOSE
 
-#define _log_printf printf
+void _log_printf(bool line_begin, const char *format, ... );
 
-#define LOG(level, fmt, ...) \
+#define LOG(level, line_begin, fmt, ...) \
     do { \
         if ((level) <= (LOG_LEVEL)) { \
-            _log_printf(fmt, ## __VA_ARGS__); \
+            _log_printf(line_begin, fmt, ## __VA_ARGS__); \
         } \
     } while (0)
 
-#define LOG_VRB_RAW(fmt, ...) LOG(5, fmt, ## __VA_ARGS__)
-#define LOG_DBG_RAW(fmt, ...) LOG(4, fmt, ## __VA_ARGS__)
-#define LOG_INF_RAW(fmt, ...) LOG(3, fmt, ## __VA_ARGS__)
-#define LOG_WRN_RAW(fmt, ...) LOG(2, LOG_COLOR_WRN fmt LOG_COLOR_RESET, ## __VA_ARGS__)
-#define LOG_ERR_RAW(fmt, ...) LOG(1, LOG_COLOR_ERR fmt LOG_COLOR_RESET, ## __VA_ARGS__)
+/* on line begin */
+#define LOG_VRB_BEG(fmt, ...) LOG(5, true, fmt, ## __VA_ARGS__)
+#define LOG_DBG_BEG(fmt, ...) LOG(4, true, fmt, ## __VA_ARGS__)
+#define LOG_INF_BEG(fmt, ...) LOG(3, true, fmt, ## __VA_ARGS__)
+#define LOG_WRN_BEG(fmt, ...) LOG(2, true, LOG_COLOR_WRN fmt LOG_COLOR_RESET, ## __VA_ARGS__)
+#define LOG_ERR_BEG(fmt, ...) LOG(1, true, LOG_COLOR_ERR fmt LOG_COLOR_RESET, ## __VA_ARGS__)
 
-#define LOG_VRB(fmt, ...) LOG(5, fmt "\n", ## __VA_ARGS__)
-#define LOG_DBG(fmt, ...) LOG(4, fmt "\n", ## __VA_ARGS__)
-#define LOG_INF(fmt, ...) LOG(3, fmt "\n", ## __VA_ARGS__)
-#define LOG_WRN(fmt, ...) LOG(2, LOG_COLOR_WRN fmt LOG_COLOR_RESET "\n", ## __VA_ARGS__)
-#define LOG_ERR(fmt, ...) LOG(1, LOG_COLOR_ERR fmt LOG_COLOR_RESET "\n", ## __VA_ARGS__)
+/* on line continuation */
+#define LOG_VRB_RAW(fmt, ...) LOG(5, false, fmt, ## __VA_ARGS__)
+#define LOG_DBG_RAW(fmt, ...) LOG(4, false, fmt, ## __VA_ARGS__)
+#define LOG_INF_RAW(fmt, ...) LOG(3, false, fmt, ## __VA_ARGS__)
+#define LOG_WRN_RAW(fmt, ...) LOG(2, false, LOG_COLOR_WRN fmt LOG_COLOR_RESET, ## __VA_ARGS__)
+#define LOG_ERR_RAW(fmt, ...) LOG(1, false, LOG_COLOR_ERR fmt LOG_COLOR_RESET, ## __VA_ARGS__)
 
+/* line begin and end */
+#define LOG_VRB(fmt, ...) LOG(5, true, fmt "\n", ## __VA_ARGS__)
+#define LOG_DBG(fmt, ...) LOG(4, true, fmt "\n", ## __VA_ARGS__)
+#define LOG_INF(fmt, ...) LOG(3, true, fmt "\n", ## __VA_ARGS__)
+#define LOG_WRN(fmt, ...) LOG(2, true, LOG_COLOR_WRN fmt LOG_COLOR_RESET "\n", ## __VA_ARGS__)
+#define LOG_ERR(fmt, ...) LOG(1, true, LOG_COLOR_ERR fmt LOG_COLOR_RESET "\n", ## __VA_ARGS__)
 
+/* line continuation */
 #define LOG_HEXDUMP(level, data, len) \
    do { \
 	if ((level) <= (LOG_LEVEL)) { \
 		for(unsigned int i = 0; i < (len); i++) { \
-			_log_printf("%02x ", data[i]); \
+			_log_printf(false, "%02x ", data[i]); \
 		} \
-		_log_printf("\n"); \
+		_log_printf(false, "\n"); \
 	} \
    } while (0)
 
 #define LOG_HEXDUMP_WITHSTART(level, data, len, _start, _end) \
    do { \
 	if ((level) <= (LOG_LEVEL)) { \
-		_log_printf(_start); \
+		_log_printf(false, _start); \
 		for(unsigned int i = 0; i < (len); i++) { \
-			_log_printf("%02x ", data[i]); \
+			_log_printf(false, "%02x ", data[i]); \
 		} \
-		_log_printf(_end); \
+		_log_printf(false, _end); \
 	} \
    } while (0)
 

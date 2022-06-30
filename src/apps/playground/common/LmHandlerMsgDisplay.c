@@ -89,23 +89,23 @@ void DisplayNvmDataChange( LmHandlerNvmContextStates_t state, uint16_t size )
 {
     if ( state == LORAMAC_HANDLER_NVM_STORE )
     {
-        LOG_INF( "-- [ CTXS STORED ] size=%i", size);
+        LOG_INF( "-- [ NVM CTXS STORED ] size=%i", size);
     }
     else
     {
-        LOG_INF( "-- [ CTXS RESTORED ] size=%i", size);
+        LOG_INF( "-- [ NVM CTXS RESTORED ] size=%i", size);
     }
 }
 
 void DisplayNetworkParametersUpdate( CommissioningParams_t *commissioningParams )
 {
-    LOG_INF_RAW( "DevEui : " );
+    LOG_INF_BEG( "DevEui : " );
     LOG_HEXDUMP_INF( commissioningParams->DevEui, 8 );
 
-    LOG_INF_RAW( "JoinEui : " );
+    LOG_INF_BEG( "JoinEui : " );
     LOG_HEXDUMP_INF( commissioningParams->JoinEui, 8 );
 
-    LOG_INF_RAW( "Pin : " );
+    LOG_INF_BEG( "Pin : " );
     LOG_HEXDUMP_INF( commissioningParams->SePin, 4 );
 }
 
@@ -115,27 +115,27 @@ void DisplayMacMcpsRequestUpdate( LoRaMacStatus_t status, McpsReq_t *mcpsReq, Ti
     {
         case MCPS_CONFIRMED:
         {
-            LOG_INF_RAW( "-- [ MCPS-Request - MCPS_CONFIRMED]");
+            LOG_INF_BEG( "-- [ MCPS-Request - MCPS_CONFIRMED]");
             break;
         }
         case MCPS_UNCONFIRMED:
         {
-            LOG_INF_RAW( "-- [ MCPS-Request - MCPS_UNCONFIRMED]");
+            LOG_INF_BEG( "-- [ MCPS-Request - MCPS_UNCONFIRMED]");
             break;
         }
         case MCPS_PROPRIETARY:
         {
-            LOG_INF_RAW( "-- [ MCPS-Request - MCPS_PROPRIETARY]");
+            LOG_INF_BEG( "-- [ MCPS-Request - MCPS_PROPRIETARY]");
             break;
         }
         default:
         {
-            LOG_INF_RAW( "-- [ MCPS-Request - MCPS_ERROR]" );
+            LOG_INF_BEG( "-- [ MCPS-Request - MCPS_ERROR]" );
             break;
         }
     }
 
-    LOG_INF("  status=%s Next Tx in= %lu ms", MacStatusStrings[status], nextTxIn);
+    LOG_INF_RAW("  status=%s Next Tx in= %lu ms\n", MacStatusStrings[status], nextTxIn);
 }
 
 void DisplayMacMlmeRequestUpdate( LoRaMacStatus_t status, MlmeReq_t *mlmeReq, TimerTime_t nextTxIn )
@@ -144,32 +144,32 @@ void DisplayMacMlmeRequestUpdate( LoRaMacStatus_t status, MlmeReq_t *mlmeReq, Ti
     {
         case MLME_JOIN:
         {
-            LOG_INF_RAW( "-- [ MCPS-Request - MLME_JOIN]" );
+            LOG_INF_BEG( "-- [ MCPS-Request - MLME_JOIN]" );
             break;
         }
         case MLME_LINK_CHECK:
         {
-            LOG_INF_RAW( "-- [ MCPS-Request - MLME_JOIN]" );
+            LOG_INF_BEG( "-- [ MCPS-Request - MLME_JOIN]" );
             break;
         }
         case MLME_DEVICE_TIME:
         {
-            LOG_INF_RAW( "-- [ MCPS-Request - MLME_DEVICE_TIME]" );
+            LOG_INF_BEG( "-- [ MCPS-Request - MLME_DEVICE_TIME]" );
             break;
         }
         case MLME_TXCW:
         {
-            LOG_INF_RAW( "-- [ MCPS-Request - MLME_TXCW]" );
+            LOG_INF_BEG( "-- [ MCPS-Request - MLME_TXCW]" );
             break;
         }
         default:
         {
-            LOG_INF_RAW( "-- [ MCPS-Request - MLME_UNKNOWN]" );
+            LOG_INF_BEG( "-- [ MCPS-Request - MLME_UNKNOWN]" );
             break;
         }
     }
 
-    LOG_INF("  status=%s Next Tx in= %lu ms", MacStatusStrings[status], nextTxIn);
+    LOG_INF_RAW("  status=%s Next Tx in= %lu ms\n", MacStatusStrings[status], nextTxIn);
 }
 
 void DisplayJoinRequestUpdate( LmHandlerJoinParams_t *params )
@@ -211,11 +211,11 @@ void DisplayTxUpdate( LmHandlerTxParams_t *params )
     {
         if ( params->MsgType == LORAMAC_HANDLER_CONFIRMED_MSG )
         {
-            LOG_INF_RAW( "\tTX DATA CONFIRMED - %s : ", ( params->AckReceived != 0 ) ? "ACK" : "NACK" );
+            LOG_INF_BEG( "\tTX DATA CONFIRMED - %s : ", ( params->AckReceived != 0 ) ? "ACK" : "NACK" );
         }
         else
         {
-            LOG_INF_RAW( "\tTX DATA UNCONFIRMED : " );
+            LOG_INF_BEG( "\tTX DATA UNCONFIRMED : " );
         }
         LOG_HEXDUMP_INF( params->AppData.Buffer, params->AppData.BufferSize );
     }
@@ -278,13 +278,13 @@ void DisplayRxUpdate( LmHandlerAppData_t *appData, LmHandlerRxParams_t *params )
     LOG_INF( "-- [ MCPS-Indication ]  status=%s",
              EventInfoStatusStrings[ params->Status ] );
 
-    LOG_INF( "-- [ DOWNLINK FRAME ]  counter=%lu windows=%s port=%d",
+    LOG_INF( "-- [ DOWNLINK FRAME ]  counter=%lu window=%s port=%d",
              params->DownlinkCounter, slotStrings[ params->RxSlot ],
              appData->Port );
 
     if( appData->BufferSize != 0 )
     {
-        LOG_INF_RAW( "\tRX DATA : " );
+        LOG_INF_BEG( "\tRX DATA : " );
         LOG_HEXDUMP_INF( appData->Buffer, appData->BufferSize );
     }
 
@@ -309,7 +309,7 @@ void DisplayBeaconUpdate( LoRaMacHandlerBeaconParams_t *params )
         }
         case LORAMAC_HANDLER_BEACON_RX:
         {
-            LOG_INF_RAW( "-- [ BEACON ] time sec=%lu GW DESC=%u INFO=",
+            LOG_INF_BEG( "-- [ BEACON ] time sec=%lu GW DESC=%u INFO=",
                      params->Info.Time.Seconds, params->Info.GwSpecific.InfoDesc );
             LOG_HEXDUMP_INF( params->Info.GwSpecific.Info, 6 );
 
