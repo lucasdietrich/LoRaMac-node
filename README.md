@@ -6,9 +6,9 @@
 - This project seperates HAL from application, because of the cmake configuration, application cannot access HAL function directly. So declare your interface function in `board.h` for example. I love this method !
 
 Expected result when sending downlink frames from TTN to command the application red LED.
-- Reset device so that it joins TTN.
-- Sending 3 unconfirmed downlink frames from TTN
-- Then sending 1 confirmed downlink frame
+1. Reset device so that it joins TTN.
+2. Send 3 unconfirmed downlink frames from TTN
+2. Send 1 confirmed downlink frame
 
 ```
 [lucas@fedora LoRaMac-node]$ python3 -m serial.tools.miniterm --raw /dev/ttyACM0 921600
