@@ -408,7 +408,7 @@ static void OnClassChange( DeviceClass_t deviceClass )
 {
     DisplayClassUpdate( deviceClass );
 
-    // Inform the server as soon as possible that the end-device has switched to ClassB
+    // Inform the server as soon as possible that the end-device has switched class
     LmHandlerAppData_t appData =
     {
         .Buffer = NULL,

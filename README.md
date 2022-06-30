@@ -1,7 +1,14 @@
 
 # Lucas Dietrich - Custom Application
 
-Expected result when sending downlink frames from TTN to command application red LED.
+- A singly linked queue is used to order timeout event in `timer.c`. RTC interrupt is scheduled for the first event to occur. 
+- If a MAC layer scheduled uplink is pending, you can send an uplink frame with no application payload. Check argument `McpsIndication_t::IsUplinkTxPending` of MacMcpsIndication() callback to determine if an uplink is required (from MAC layer).
+- This project seperates HAL from application, because of the cmake configuration, application cannot access HAL function directly. So declare your interface function in `board.h` for example. I love this method !
+
+Expected result when sending downlink frames from TTN to command the application red LED.
+- Reset device so that it joins TTN.
+- Sending 3 unconfirmed downlink frames from TTN
+- Then sending 1 confirmed downlink frame
 
 ```
 [lucas@fedora LoRaMac-node]$ python3 -m serial.tools.miniterm --raw /dev/ttyACM0 921600
@@ -34,6 +41,14 @@ Expected result when sending downlink frames from TTN to command application red
 00101335 : -- [ DOWNLINK FRAME ]  counter=3 window=C port=2
 00101337 :      RX DATA : 03
 00101338 :      DR_3 rssi=-24 snr=7
+00451029 : -- [ MCPS-Indication ]  status=OK
+00451030 : -- [ DOWNLINK FRAME ]  counter=4 window=C port=2
+00451032 :      RX DATA : 03
+00451033 :      DR_3 rssi=-33 snr=8
+00451042 : -- [ MCPS-Request - MCPS_UNCONFIRMED]  status=OK Next Tx in= 0 ms
+00457223 : -- [ MCPS-Confirm ]  status=OK
+00457224 : -- [ UPLINK FRAME ]  counter=2 class=C port=0
+00457226 :      DR_3 frequency=868100000 power=1 channel mask=255
 ```
 
 ---
