@@ -22,8 +22,6 @@
 /*! \file periodic-uplink/B-L072Z-LRWAN1/main.c */
 
 #include <stdio.h>
-#include "../firmwareVersion.h"
-#include "../../common/githubVersion.h"
 #include "utilities.h"
 #include "board.h"
 #include "gpio.h"
@@ -36,6 +34,9 @@
 #include "LmhpCompliance.h"
 #include "CayenneLpp.h"
 #include "LmHandlerMsgDisplay.h"
+
+#include "logging.h"
+#define LOG_LEVEL LOG_LEVEL_DBG
 
 #ifndef ACTIVE_REGION
 
@@ -235,7 +236,7 @@ static LmHandlerParams_t LmHandlerParams =
 
 static LmhpComplianceParams_t LmhpComplianceParams =
 {
-    .FwVersion.Value = FIRMWARE_VERSION,
+    .FwVersion.Value = 0,
     .OnTxPeriodicityChanged = OnTxPeriodicityChanged,
     .OnTxFrameCtrlChanged = OnTxFrameCtrlChanged,
     .OnPingSlotPeriodicityChanged = OnPingSlotPeriodicityChanged,
@@ -288,12 +289,6 @@ int main( void )
     // Initialize transmission periodicity variable
     TxPeriodicity = APP_TX_DUTYCYCLE + randr( -APP_TX_DUTYCYCLE_RND, APP_TX_DUTYCYCLE_RND );
 
-    const Version_t appVersion = { .Value = FIRMWARE_VERSION };
-    const Version_t gitHubVersion = { .Value = GITHUB_VERSION };
-    DisplayAppInfo( "periodic-uplink-lpp", 
-                    &appVersion,
-                    &gitHubVersion );
-
     if ( LmHandlerInit( &LmHandlerCallbacks, &LmHandlerParams ) != LORAMAC_HANDLER_SUCCESS )
     {
         printf( "LoRaMac wasn't properly initialized\n" );
@@ -313,6 +308,8 @@ int main( void )
     LmHandlerJoin( );
 
     StartTxProcess( LORAMAC_HANDLER_TX_ON_TIMER );
+
+    LOG_INF("Application starting !");
 
     while( 1 )
     {
