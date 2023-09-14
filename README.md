@@ -5,6 +5,27 @@
 - If a MAC layer scheduled uplink is pending, you can send an uplink frame with no application payload. Check argument `McpsIndication_t::IsUplinkTxPending` of MacMcpsIndication() callback to determine if an uplink is required (from MAC layer).
 - This project seperates HAL from application, because of the cmake configuration, application cannot access HAL function directly. So declare your interface function in `board.h` for example. I love this method !
 
+## Commissioning
+
+- In `src/peripherals/soft-se/se-identity.h`
+  - Set `LORAWAN_DEVICE_EUI` to `{ 0x70, 0xb3, 0xd5, 0x7e, 0xd0, 0x05, 0x25, 0x45 }` (get from TTN)
+  - Keep `LORAWAN_JOIN_EUI` and `SECURE_ELEMENT_PIN` to their default values
+  - In `SOFT_SE_KEY_LIST`, set:
+    - `APP_KEY` to the TTN Application Key
+    - `NWK_KEY` to the TTN Network Key
+
+## Build, flash, debug
+
+- Repository: https://github.com/lucasdietrich/LoRaMac-node
+- Require VS Code IDE with CMake Tools extension
+- Require `arm-none-eabi-gcc` toolchain + `openocd`
+- Build with `cmake`
+- Debug with `F5` generated `launch.json` file
+- Flash with `F5` or custom openocd script
+- Monitor with `python3 -m serial.tools.miniterm --raw /dev/ttyACM0 921600`
+
+## Expected output
+
 Expected result when sending downlink frames from TTN to command the application red LED.
 1. Reset device so that it joins TTN.
 2. Send 3 unconfirmed downlink frames from TTN
