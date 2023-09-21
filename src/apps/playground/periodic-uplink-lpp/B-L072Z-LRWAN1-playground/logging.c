@@ -7,7 +7,7 @@
 void _log_printf( bool line_begin, const char *format, ... )
 {
     if ( line_begin == true ) {
-        printf( "%08lu : ", BoardGetTimeMs() );
+        printf( "%08lu : ", BoardGetUptimeMs() );
     }
 
     va_list args;

@@ -35,7 +35,7 @@
         // Select the default LoRaWAN class for periodic-uplink-lpp sub-project
         // In case `CLASS_B` or `CLASS_C` is selected the example will try to
         // switch to the given class as soon as possible
-        "LORAWAN_DEFAULT_CLASS":"CLASS_C",
+        "LORAWAN_DEFAULT_CLASS":"CLASS_A",
 
         // Switch for Class B support of LoRaMac:
         "CLASSB_ENABLED":"ON",
@@ -98,7 +98,9 @@
         "string_view": "c",
         "ranges": "c",
         "logging.h": "c",
-        "board.h": "c"
+        "board.h": "c",
+        "initializer_list": "c",
+        "utility": "c"
     },
     "bookmarks.saveBookmarksInProject": true
 }
